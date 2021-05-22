@@ -2,13 +2,11 @@ const express = require("express");
 
 const app = express();
 
-app.use((req, res, next) => {
-  console.log("Hello");
-  next(); // Allows the request to continue to the next middleware
+app.use("/add", (req, res, next) => {
+  res.send("<h1>Add Cool beans</h1>");
 });
 
-app.use((req, res, next) => {
-  console.log("Sup");
+app.use("/", (req, res, next) => {
   res.send("<h1>Cool beans</h1>");
 });
 
