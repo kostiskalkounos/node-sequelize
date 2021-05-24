@@ -1,23 +1,10 @@
-const path = require("path");
 const express = require("express");
+const productsController = require("../controllers/products");
 
 const router = express.Router();
-const products = [];
 
-router.get("/add-product", (req, res, next) => {
-  // render template
-  // refers to /views/add-product.ejs
-  res.render("add-product", {
-    // pass these variables into the templates
-    pageTitle: "Add Product",
-    path: "/admin/add-product",
-  });
-});
+router.get("/add-product", productsController.getAddProduct);
 
-router.post("/add-product", (req, res, next) => {
-  products.push({ title: req.body.title });
-  res.redirect("/");
-});
+router.post("/add-product", productsController.postAddProduct);
 
-exports.routes = router;
-exports.products = products;
+module.exports = router;
