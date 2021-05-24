@@ -9,7 +9,8 @@ const app = express();
 app.engine(
   "hbs",
   expressHbs({
-    defaultLayout: null,
+    layoutsDir: "views/layouts", // not needed, the default path is already that one
+    defaultLayout: "main-layout",
     extname: "hbs",
   })
 );
