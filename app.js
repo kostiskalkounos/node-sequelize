@@ -5,8 +5,8 @@ const shopRoutes = require("./routes/shop");
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", "views"); // not needed, the default path is already '/views'
+app.set("view engine", "ejs"); // Register template engine
+app.set("views", "views"); // Not needed, the default path is already '/views'
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
