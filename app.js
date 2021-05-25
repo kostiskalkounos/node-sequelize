@@ -12,8 +12,22 @@ const app = express();
 app.set("view engine", "ejs"); // Register template engine
 app.set("views", "views"); // Not needed, the default path is already '/views'
 
+// Middleware is triggered by incoming requests
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+// Store User into a request to use them anywhere in the app
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      // Store the user we retrive from the database into the request
+      req.user = user; // user is a sequelize object and it includes methods like destroy()
+      next(); // continue with the next step if we got our user and stored it
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
@@ -25,8 +39,22 @@ Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
 
 // create the appropriate tables or define relations based on models/products
+// and it's triggered by npm start
 sequelize
-  .sync({ force: true }) // Forces the tables to be overwritten
+  //.sync({ force: true }) // Forces the tables to be overwritten
+  .sync()
+  .then(() => {
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({ name: "Kostis", email: "test@test.com" });
+    }
+
+    // return Promise.resolve(user);
+    // A value in a then block is automatically wrapped into a new promise
+    return user;
+  })
   .then(() => {
     app.listen(3000);
   })
