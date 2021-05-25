@@ -17,12 +17,16 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
 
-  const product = new Product(null, title, imageUrl, price, description);
-  product
-    .save()
+  // It is saved in the database automatically
+  Product.create({
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description,
+  })
     .then(() => {
-      // redirect once the insert is completed
-      res.redirect("/");
+      console.log("Created Product");
+      res.redirect("/admin/products");
     })
     .catch((err) => {
       console.log(err);
