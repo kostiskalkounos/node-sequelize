@@ -10,7 +10,14 @@ module.exports = class Product {
     this.price = price;
   }
 
-  save() {}
+  save() {
+    // return a promise and use it where it's called
+    return db.execute(
+      // Insert data this way to guard against SQL injection in the input fields
+      "INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)",
+      [this.title, this.price, this.imageUrl, this.description]
+    );
+  }
 
   static deleteById(id) {}
 
