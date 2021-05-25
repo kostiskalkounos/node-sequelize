@@ -6,6 +6,8 @@ const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
 const Product = require("./models/product");
 const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 
 const app = express();
 
@@ -36,7 +38,13 @@ app.use(errorController.get404);
 
 // If a User is deleted, delete the products too
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
-User.hasMany(Product);
+User.hasMany(Product); // optional
+
+User.hasOne(Cart); // Both of these add the userId to the cart to which it belongs
+Cart.belongsTo(User); // optional: this or the above, both aren't needed. Same case as above
+
+Cart.belongsToMany(Product, { through: CartItem }); // Thrgouh key tells sequalize were these connections should be stored
+Product.belongsToMany(Cart, { through: CartItem });
 
 // create the appropriate tables or define relations based on models/products
 // and it's triggered by npm start
