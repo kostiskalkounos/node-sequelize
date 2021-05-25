@@ -135,9 +135,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOder = (req, res, next) => {
+  let fetchedCart;
   req.user
     .getCart()
     .then((cart) => {
+      fetchedCart = cart;
       return cart.getProducts();
     })
     .then((products) => {
@@ -154,6 +156,9 @@ exports.postOder = (req, res, next) => {
         .catch((err) => {
           console.log(err);
         });
+    })
+    .then(() => {
+      return fetchedCart.setProducts(null);
     })
     .then(() => {
       res.redirect("/orders");
