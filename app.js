@@ -8,6 +8,8 @@ const Product = require("./models/product");
 const User = require("./models/user");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 
 const app = express();
 
@@ -46,10 +48,15 @@ Cart.belongsTo(User); // optional: this or the above, both aren't needed. Same c
 Cart.belongsToMany(Product, { through: CartItem }); // Thrgouh key tells sequalize were these connections should be stored
 Product.belongsToMany(Cart, { through: CartItem }); // meaning what's the inbetween table that connect them
 
+Order.belongsTo(User);
+User.hasMany(Order);
+
+Order.belongsToMany(Product, { through: OrderItem });
+
 // create the appropriate tables or define relations based on models/products
 // and it's triggered by npm start
 sequelize
-  //.sync({ force: true }) // Forces the tables to be overwritten
+  // .sync({ force: true }) // Forces the tables to be overwritten
   .sync()
   .then(() => {
     return User.findByPk(1);
