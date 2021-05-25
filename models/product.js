@@ -55,7 +55,6 @@ module.exports = class Product {
       fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
         Cart.deleteProduct(id, product.price);
       });
-      callback(product);
     });
   }
 
