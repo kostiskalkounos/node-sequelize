@@ -63,7 +63,10 @@ sequelize
     // A value in a then block is automatically wrapped into a new promise
     return user;
   })
-  .then(() => {
+  .then((user) => {
+    return user.createCart();
+  })
+  .then((_cart) => {
     app.listen(3000);
   })
   .catch((err) => {
