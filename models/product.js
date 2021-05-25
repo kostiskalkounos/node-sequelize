@@ -26,5 +26,8 @@ module.exports = class Product {
     return db.execute("SELECT * FROM products");
   }
 
-  static findById(id) {}
+  static findById(id) {
+    // let SQL inject the value
+    return db.execute("SELECT * FROM products WHERE products.id = ?", [id]);
+  }
 };
