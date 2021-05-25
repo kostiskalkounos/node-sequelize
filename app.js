@@ -44,7 +44,7 @@ User.hasOne(Cart); // Both of these add the userId to the cart to which it belon
 Cart.belongsTo(User); // optional: this or the above, both aren't needed. Same case as above
 
 Cart.belongsToMany(Product, { through: CartItem }); // Thrgouh key tells sequalize were these connections should be stored
-Product.belongsToMany(Cart, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem }); // meaning what's the inbetween table that connect them
 
 // create the appropriate tables or define relations based on models/products
 // and it's triggered by npm start
